@@ -1,0 +1,27 @@
+{
+  "name": "sms",
+  "version": "1.0.0",
+  "description": "Baitussalam Student Management System (SMS) - A final project",
+  "keywords": [
+    "student",
+    "management",
+    "system",
+    "PSDC",
+    "education"
+  ],
+  "homepage": "https://github.com/ShazilK47/PSDC_SMS#readme",
+  "bugs": {
+    "url": "https://github.com/ShazilK47/PSDC_SMS/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShazilK47/PSDC_SMS.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
