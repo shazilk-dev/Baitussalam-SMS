@@ -1,18 +1,24 @@
-// data/students.js
 const students = [
   {
     id: "1",
-    name: "Ayaan Ahmed",
-    email: "ayaan@example.com",
+    name: "Shazil Khan",
+    email: "shazil.akn@gmail.com",
     age: 20,
-    course: "Web Dev",
+    course: "PSDC",
   },
   {
     id: "2",
-    name: "Sara Khan",
-    email: "sara@example.com",
+    name: "Muhammad Talha",
+    email: "muhammadtalha@gmail.com",
     age: 22,
-    course: "AI",
+    course: "PSDC",
+  },
+  {
+    id: "3",
+    name: "Muhammad Naveed",
+    email: "muhammadnaveed@gmail.com",
+    age: 22,
+    course: "PSDC",
   },
 ];
 
