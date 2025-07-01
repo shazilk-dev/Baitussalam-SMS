@@ -1,11 +1,18 @@
 
 exports.loginPageHandler = (req, res) => {
-    res.render("pages/login", { title: "Login" });
+  res.render("pages/login", {
+    title: "Login",
+    pageCSS: "login",
+    pageJS: "login"
+  });
 };
   
 exports.dashboardHandler = (req, res) => {
   res.render("pages/dashboard", {
-    title: "Dashboard", user: "Shazil"
+    title: "Dashboard",
+    user: "Shazil",
+    pageCSS: "dashboard",
+    pageJS: "dashboard"
   });
 };
   

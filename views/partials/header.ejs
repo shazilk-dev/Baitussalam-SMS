@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title><%= title %></title>
-    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/global.css">
+    <% if (typeof pageCSS !== 'undefined') { %>
+      <link rel="stylesheet" href="/css/<%= pageCSS %>.css">
+    <% } %>
   </head>
   <body>
     <header>

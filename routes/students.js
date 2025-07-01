@@ -3,10 +3,8 @@ const router = express.Router();
 const { studentsHandler, studentDetailHandler } = require("../controllers/studentController");
 
 
-router.get("/students", studentsHandler)
-
-
-router.get("students/:id", studentDetailHandler)
+router.get("/", studentsHandler)
+router.get("/:id", studentDetailHandler)
 
 
 module.exports = router;

@@ -11,7 +11,6 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use("/", authRoutes);
-
 app.use('/students', studentRoutes);
 
 app.listen(3000, () => {
