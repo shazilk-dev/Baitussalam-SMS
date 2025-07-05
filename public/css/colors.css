@@ -1,0 +1,165 @@
+/* ===== PROFESSIONAL COLOR SYSTEM ===== */
+/* Color Palette for Baitussalam Student Management System */
+
+:root {
+  /* ===== PRIMARY BRAND COLORS ===== */
+  --primary-600: #206C96; /* Bice Blue - Main brand color */
+  --primary-500: #177CB4; /* Honolulu Blue - Secondary brand */
+  --primary-400: #2B8BC7; /* Lighter variation */
+  --primary-300: #5BA3D4; /* Even lighter */
+  --primary-200: #A4C8E4; /* Very light */
+  --primary-100: #E1F0F8; /* Background tint */
+  --primary-50: #F0F7FB;  /* Subtle background */
+
+  /* ===== NEUTRAL COLORS ===== */
+  --white: #FEFEFE;       /* Pure white */
+  --gray-900: #1A1A1A;   /* Darkest text */
+  --gray-800: #2D2D2D;   /* Dark text */
+  --gray-700: #404040;   /* Medium dark text */
+  --gray-600: #595A5A;   /* Davy's Gray - Body text */
+  --gray-500: #776E6C;   /* Dim Gray - Secondary text */
+  --gray-400: #9CA3AF;   /* Light gray */
+  --gray-300: #D1D5DB;   /* Border gray */
+  --gray-200: #E5E7EB;   /* Light border */
+  --gray-100: #F3F4F6;   /* Background gray */
+  --gray-50: #F9FAFB;    /* Lightest background */
+
+  /* ===== SEMANTIC COLORS ===== */
+  /* Success Colors */
+  --success-600: #059669; /* Dark green */
+  --success-500: #10B981; /* Main green */
+  --success-100: #D1FAE5; /* Light green background */
+  --success-50: #ECFDF5;  /* Very light green */
+
+  /* Warning Colors */
+  --warning-600: #D97706; /* Dark amber */
+  --warning-500: #F59E0B; /* Main amber */
+  --warning-100: #FEF3C7; /* Light amber background */
+  --warning-50: #FFFBEB;  /* Very light amber */
+
+  /* Error Colors */
+  --error-600: #DC2626;   /* Dark red */
+  --error-500: #EF4444;   /* Main red */
+  --error-100: #FEE2E2;   /* Light red background */
+  --error-50: #FEF2F2;    /* Very light red */
+
+  /* Info Colors */
+  --info-600: var(--primary-600); /* Use primary blue */
+  --info-500: var(--primary-500); /* Use secondary blue */
+  --info-100: var(--primary-100); /* Use primary light */
+  --info-50: var(--primary-50);   /* Use primary very light */
+
+  /* ===== SURFACE COLORS ===== */
+  --surface-primary: var(--white);     /* Main content backgrounds */
+  --surface-secondary: var(--gray-50); /* Secondary backgrounds */
+  --surface-tertiary: var(--gray-100); /* Card backgrounds */
+  --surface-elevated: var(--white);    /* Modal, dropdown backgrounds */
+
+  /* ===== BORDER COLORS ===== */
+  --border-primary: var(--gray-300);   /* Main borders */
+  --border-secondary: var(--gray-200); /* Subtle borders */
+  --border-accent: var(--primary-300); /* Accent borders */
+
+  /* ===== TEXT COLORS ===== */
+  --text-primary: var(--gray-900);     /* Main headings */
+  --text-secondary: var(--gray-600);   /* Body text */
+  --text-tertiary: var(--gray-500);    /* Supporting text */
+  --text-inverse: var(--white);        /* Text on dark backgrounds */
+  --text-accent: var(--primary-600);   /* Brand text */
+
+  /* ===== INTERACTIVE COLORS ===== */
+  --interactive-primary: var(--primary-600);    /* Primary buttons */
+  --interactive-primary-hover: var(--primary-500); /* Primary hover */
+  --interactive-secondary: var(--gray-600);     /* Secondary buttons */
+  --interactive-secondary-hover: var(--gray-700); /* Secondary hover */
+
+  /* ===== GRADIENTS ===== */
+  --gradient-primary: linear-gradient(135deg, var(--primary-600), var(--primary-500));
+  --gradient-secondary: linear-gradient(135deg, var(--gray-600), var(--gray-500));
+  --gradient-surface: linear-gradient(180deg, var(--white), var(--gray-50));
+  --gradient-hero: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-500) 50%, var(--primary-400) 100%);
+
+  /* ===== SHADOWS ===== */
+  --shadow-xs: 0 1px 2px rgba(32, 108, 150, 0.05);
+  --shadow-sm: 0 1px 3px rgba(32, 108, 150, 0.1), 0 1px 2px rgba(32, 108, 150, 0.06);
+  --shadow-md: 0 4px 6px rgba(32, 108, 150, 0.07), 0 2px 4px rgba(32, 108, 150, 0.06);
+  --shadow-lg: 0 10px 15px rgba(32, 108, 150, 0.1), 0 4px 6px rgba(32, 108, 150, 0.05);
+  --shadow-xl: 0 20px 25px rgba(32, 108, 150, 0.1), 0 10px 10px rgba(32, 108, 150, 0.04);
+  --shadow-2xl: 0 25px 50px rgba(32, 108, 150, 0.15);
+
+  /* ===== COMPONENT SPECIFIC ===== */
+  /* Sidebar */
+  --sidebar-bg: var(--white);
+  --sidebar-border: var(--border-secondary);
+  --sidebar-text: var(--text-secondary);
+  --sidebar-text-active: var(--primary-600);
+  --sidebar-item-hover: var(--primary-50);
+  --sidebar-item-active: var(--primary-100);
+
+  /* Dashboard */
+  --dashboard-bg: var(--gray-50);
+  --card-bg: var(--surface-primary);
+  --card-border: var(--border-secondary);
+  --card-shadow: var(--shadow-sm);
+
+  /* Forms */
+  --input-bg: var(--white);
+  --input-border: var(--border-primary);
+  --input-border-focus: var(--primary-500);
+  --input-text: var(--text-primary);
+  --input-placeholder: var(--text-tertiary);
+
+  /* Buttons */
+  --btn-primary-bg: var(--primary-600);
+  --btn-primary-bg-hover: var(--primary-500);
+  --btn-primary-text: var(--white);
+  --btn-secondary-bg: var(--white);
+  --btn-secondary-bg-hover: var(--gray-50);
+  --btn-secondary-text: var(--gray-600);
+  --btn-secondary-border: var(--border-primary);
+
+  /* Tables */
+  --table-header-bg: var(--gray-50);
+  --table-header-text: var(--text-primary);
+  --table-row-hover: var(--primary-50);
+  --table-border: var(--border-secondary);
+
+  /* Status Colors */
+  --status-active: var(--success-500);
+  --status-inactive: var(--gray-400);
+  --status-pending: var(--warning-500);
+  --status-error: var(--error-500);
+}
+
+/* ===== DARK MODE SUPPORT (Future Enhancement) ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-primary: #1F2937;
+    --surface-secondary: #111827;
+    --text-primary: #F9FAFB;
+    --text-secondary: #D1D5DB;
+    --text-tertiary: #9CA3AF;
+    --dashboard-bg: #111827;
+    --sidebar-bg: #1F2937;
+  }
+}
+
+/* ===== UTILITY CLASSES FOR COLORS ===== */
+.text-primary { color: var(--text-primary) !important; }
+.text-secondary { color: var(--text-secondary) !important; }
+.text-tertiary { color: var(--text-tertiary) !important; }
+.text-accent { color: var(--text-accent) !important; }
+.text-white { color: var(--white) !important; }
+.text-success { color: var(--success-500) !important; }
+.text-warning { color: var(--warning-500) !important; }
+.text-error { color: var(--error-500) !important; }
+
+.bg-primary { background-color: var(--primary-600) !important; }
+.bg-secondary { background-color: var(--gray-100) !important; }
+.bg-white { background-color: var(--white) !important; }
+.bg-success { background-color: var(--success-500) !important; }
+.bg-warning { background-color: var(--warning-500) !important; }
+.bg-error { background-color: var(--error-500) !important; }
+
+.border-primary { border-color: var(--border-primary) !important; }
+.border-accent { border-color: var(--border-accent) !important; }
