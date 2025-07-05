@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {loginPageHandler, dashboardHandler, forgetPasswordHandler, resetPasswordHandler} = require("../controllers/authController");
+const {loginPageHandler, loginPostHandler, dashboardHandler, forgetPasswordHandler, forgetPasswordPostHandler, resetPasswordHandler} = require("../controllers/authController");
 
 
 
@@ -10,10 +10,12 @@ router.get("/", (req, res) => {
 })
 
 router.get("/login", loginPageHandler);
+router.post("/login", loginPostHandler);
 
 router.get("/dashboard", dashboardHandler);
 
-router.get('/forget-password', forgetPasswordHandler);
+router.get('/forgot-password', forgetPasswordHandler);
+router.post('/forgot-password', forgetPasswordPostHandler);
 
 router.get('/reset-password', resetPasswordHandler)
 

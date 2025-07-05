@@ -1,13 +1,18 @@
+<% if (typeof pageCSS === 'undefined' || pageCSS !== 'dashboard') { %>
 </main>
 <hr>
+<% } %>
 
 <script src="/js/global.js"></script>
 
-  <% if (typeof pageJS !== 'undefined') { %>
-  <script src="/js/<%= pageJS %>.js"></script>
-  <% } %>
+<% if (typeof pageJS !== 'undefined') { %>
+<script src="/js/<%= pageJS %>.js"></script>
+<% } %>
+
+<% if (typeof pageCSS === 'undefined' || pageCSS !== 'dashboard') { %>
 <footer>
   <p>&copy; <%= new Date().getFullYear() %> Student Management System | Built by Team SK</p>
 </footer>
+<% } %>
 </body>
 </html>
