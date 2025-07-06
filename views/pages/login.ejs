@@ -24,6 +24,49 @@
                 <div class="form-section">
                     <h1>Sign in</h1>
                     <p class="form-subtitle">Welcome back! Please enter your details.</p>
+
+                    <% if (typeof error !== 'undefined' && error) { %>
+                        <div class="alert alert-error">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span>
+                                <% if (error === 'invalid_credentials') { %>
+                                    Invalid email or password. Please try again.
+                                <% } else if (error === 'missing_email') { %>
+                                    Please enter your email address.
+                                <% } else if (error === 'missing_password') { %>
+                                    Please enter your password.
+                                <% } else if (error === 'login_required') { %>
+                                    Please log in to access the dashboard.
+                                <% } else if (error === 'session_error') { %>
+                                    Session error. Please try logging in again.
+                                <% } else { %>
+                                    Login failed. Please try again.
+                                <% } %> 
+                            </span>
+                        </div>
+                    <% } %>
+                    
+    <% if (typeof success !== 'undefined' && success) { %>
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+            <span>
+                <% if (success === 'logged_out') { %>
+                    You have been successfully logged out.
+                <% } else if (success === 'password_reset_sent') { %>
+                    Password reset email sent successfully.
+                <% } else if (success === 'account_created') { %>
+                    Account created successfully. Please log in.
+                <% } else { %>
+                    Success! Please proceed.
+                <% } %>
+            </span>
+        </div>
+    <% } %>   
+
+
+
+
+
                     
                     <form class="login-form" action="/login" method="POST">
                         <div class="form-group">
@@ -81,7 +124,7 @@
             </div>
         </div>
         
-        <!-- Right Section - Welcome Message -->
+        <!-- Right Section - Welcome Message ------------------------------------------------------------------------------->
         <div class="login-right">
             <div class="welcome-content">
                 <div class="logo-large">

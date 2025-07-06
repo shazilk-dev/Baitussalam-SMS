@@ -1,7 +1,9 @@
 <div class="sidebar">
   <div class="sidebar-header">
     <div class="logo">
-      <div class="logo-icon">BT</div>
+      <div class="logo-icon">
+        <img src="/images/logobwt.jpg" alt="Baitussalam Logo" class="logo-image">
+      </div>
       <div class="logo-text">
         <h2>Baitussalam</h2>
         <span>TechPark</span>
@@ -11,7 +13,7 @@
   
   <nav class="sidebar-nav">
     <ul>
-      <li class="nav-item active">
+      <li class="nav-item <%= (typeof currentPage !== 'undefined' && currentPage === 'dashboard') ? 'active' : '' %>">
         <a href="/dashboard" class="nav-link">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="3" width="7" height="7"></rect>
@@ -22,7 +24,7 @@
           <span>Dashboard</span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item <%= (typeof currentPage !== 'undefined' && currentPage === 'students') ? 'active' : '' %>">
         <a href="/students" class="nav-link">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -33,7 +35,7 @@
           <span>Students</span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item <%= (typeof currentPage !== 'undefined' && currentPage === 'courses') ? 'active' : '' %>">
         <a href="/courses" class="nav-link">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
@@ -42,7 +44,7 @@
           <span>Courses</span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item <%= (typeof currentPage !== 'undefined' && currentPage === 'attendance') ? 'active' : '' %>">
         <a href="/attendance" class="nav-link">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M9 11l3 3l8-8"></path>
@@ -51,7 +53,7 @@
           <span>Attendance</span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item <%= (typeof currentPage !== 'undefined' && currentPage === 'reports') ? 'active' : '' %>">
         <a href="/reports" class="nav-link">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="20" x2="18" y2="10"></line>
@@ -61,7 +63,7 @@
           <span>Reports</span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item <%= (typeof currentPage !== 'undefined' && currentPage === 'settings') ? 'active' : '' %>">
         <a href="/settings" class="nav-link">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="3"></circle>
@@ -82,8 +84,8 @@
         </svg>
       </div>
       <div class="user-details">
-        <span class="user-name">Admin</span>
-        <span class="user-role">Administrator</span>
+        <span class="user-name"><%= user ? user.name : "User" %></span>
+        <span class="user-role"><%= user && user.role ? user.role : "Guest" %></span>
       </div>
     </div>
     <a href="/logout" class="logout-btn">

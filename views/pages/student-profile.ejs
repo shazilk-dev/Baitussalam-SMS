@@ -1,9 +1,386 @@
-<%- include('../partials/header') %>
+<%- include('../partials/dashboard-head') %>
 
-<h1><%= title %></h1>
-<p>Student ID: <%= student.id %></p>
-<p>Name: <%= student.name %></p>
-<p>email: <%= student.email %></p>
-<p>Age: <%= student.age %></p>
-<p>Course: <%= student.course %></p>
+<div class="dashboard-layout">
+  <!-- Mobile Menu ------------------------------------------------------ -->
+  <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+  </button>
+
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <%- include('../partials/sidebar') %>
+  
+  <div class="main-content">
+    <nav class="breadcrumb-nav">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/students" class="breadcrumb-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            Students
+          </a>
+        </li>
+        <li class="breadcrumb-separator">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18l6-6-6-6"></path>
+          </svg>
+        </li>
+        <li class="breadcrumb-item active"><%= student.name %></li>
+      </ol>
+    </nav>
+
+    <!--------------------------------- Profile Header --------------------------->
+    <div class="profile-header">
+      <div class="profile-banner">
+        <div class="profile-info">
+          <div class="profile-avatar">
+            <span class="avatar-text"><%= student.name.split(' ').map(n => n[0]).join('').toUpperCase() %></span>
+            <div class="status-indicator status-<%= student.status %>"></div>
+          </div>
+          <div class="profile-details">
+            <h1 class="profile-name"><%= student.name %></h1>
+            <div class="profile-meta">
+              <span class="student-id">Student ID: #<%= student.id.toString().padStart(4, '0') %></span>
+              <span class="profile-divider">•</span>
+              <span class="enrollment-info">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Enrolled <%= new Date(student.enrollmentDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+              </span>
+            </div>
+            <div class="profile-badges">
+              <span class="status-badge status-<%= student.status %>">
+                <span class="status-dot"></span>
+                <%= student.status.charAt(0).toUpperCase() + student.status.slice(1) %>
+              </span>
+              <span class="course-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+                <%= student.course %>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="profile-actions">
+          <button class="btn btn-secondary btn-sm" title="Edit Student Profile" onclick="handleEditProfile()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            Edit Profile
+          </button>
+          <button class="btn btn-primary btn-sm" title="Download Student Report" onclick="handleDownloadReport()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14,2 14,8 20,8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10,9 9,9 8,9"></polyline>
+            </svg>
+            Download Report
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Stats Dashboard -->
+    <div class="quick-stats">
+      <div class="stat-card">
+        <div class="stat-icon enrollment">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12,6 12,12 16,14"></polyline>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <h3><%= Math.floor((new Date() - new Date(student.enrollmentDate)) / (1000 * 60 * 60 * 24)) %></h3>
+          <p>Days Enrolled</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon age">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <h3><%= student.age %></h3>
+          <p>Years Old</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon progress">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <h3>85%</h3>
+          <p>Course Progress</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon attendance">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <h3>92%</h3>
+          <p>Attendance Rate</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Student Information Cards -->
+    <div class="content-grid">
+      <!-- Personal Information Card -->
+      <div class="info-card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Personal Information
+          </h2>
+        </div>
+        <div class="card-body">
+          <div class="info-grid">
+            <div class="info-item">
+              <label class="info-label">Full Name</label>
+              <span class="info-value"><%= student.name %></span>
+            </div>
+            <div class="info-item">
+              <label class="info-label">Gender</label>
+              <span class="info-value"><%= student.gender %></span>
+            </div>
+            <div class="info-item">
+              <label class="info-label">Age</label>
+              <span class="info-value"><%= student.age %> years old</span>
+            </div>
+            <div class="info-item">
+              <label class="info-label">Address</label>
+              <span class="info-value"><%= student.address %></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Information Card -->
+      <div class="info-card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            Contact Information
+          </h2>
+        </div>
+        <div class="card-body">
+          <div class="info-grid">
+            <div class="info-item">
+              <label class="info-label">Email Address</label>
+              <a href="mailto:<%= student.email %>" class="contact-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <%= student.email %>
+              </a>
+            </div>
+            <div class="info-item">
+              <label class="info-label">Phone Number</label>
+              <a href="tel:<%= student.phone %>" class="contact-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                <%= student.phone %>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Academic Information Card -->
+      <div class="info-card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+            </svg>
+            Academic Information
+          </h2>
+        </div>
+        <div class="card-body">
+          <div class="info-grid">
+            <div class="info-item">
+              <label class="info-label">Course</label>
+              <span class="course-tag"><%= student.course %></span>
+            </div>
+            <div class="info-item">
+              <label class="info-label">Course ID</label>
+              <span class="info-value">CRS-<%= student.courseId.toString().padStart(3, '0') %></span>
+            </div>
+            <div class="info-item">
+              <label class="info-label">Enrollment Date</label>
+              <span class="info-value"><%= new Date(student.enrollmentDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+            </div>
+            <div class="info-item">
+              <label class="info-label">Current Status</label>
+              <span class="status-badge status-<%= student.status %>">
+                <span class="status-dot"></span>
+                <%= student.status.charAt(0).toUpperCase() + student.status.slice(1) %>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Academic Performance Card -->
+      <div class="info-card performance-card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            Academic Performance
+          </h2>
+        </div>
+        <div class="card-body">
+          <div class="progress-section">
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-label">Course Progress</span>
+                <span class="progress-value">85%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 85%"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-label">Attendance Rate</span>
+                <span class="progress-value">92%</span>
+              </div>
+              <div class="progress-bar attendance">
+                <div class="progress-fill" style="width: 92%"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-label">Assignment Completion</span>
+                <span class="progress-value">78%</span>
+              </div>
+              <div class="progress-bar assignments">
+                <div class="progress-fill" style="width: 78%"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="activity-stats">
+            <div class="activity-item">
+              <span class="activity-label">Last Login</span>
+              <span class="activity-value">2 hours ago</span>
+            </div>
+            <div class="activity-item">
+              <span class="activity-label">Total Sessions</span>
+              <span class="activity-value">156</span>
+            </div>
+            <div class="activity-item">
+              <span class="activity-label">Study Hours</span>
+              <span class="activity-value">240 hrs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h3 class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9,11 12,14 22,4"></polyline>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+        </svg>
+        Quick Actions
+      </h3>
+      <div class="actions-grid">
+        <button class="action-btn" onclick="handleViewTranscript()">
+          <div class="action-icon transcript">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14,2 14,8 20,8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10,9 9,9 8,9"></polyline>
+            </svg>
+          </div>
+          <div class="action-content">
+            <span class="action-title">View Transcript</span>
+            <span class="action-desc">Download academic records</span>
+          </div>
+        </button>
+        <button class="action-btn" onclick="handleSendMessage()">
+          <div class="action-icon message">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </div>
+          <div class="action-content">
+            <span class="action-title">Send Message</span>
+            <span class="action-desc">Contact the student</span>
+          </div>
+        </button>
+        <button class="action-btn" onclick="handleScheduleMeeting()">
+          <div class="action-icon meeting">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+          <div class="action-content">
+            <span class="action-title">Schedule Meeting</span>
+            <span class="action-desc">Book a consultation</span>
+          </div>
+        </button>
+        <button class="action-btn" onclick="handleUpdateStatus()">
+          <div class="action-icon status">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V6a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </div>
+          <div class="action-content">
+            <span class="action-title">Update Status</span>
+            <span class="action-desc">Change enrollment status</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <%- include('../partials/footer') %>

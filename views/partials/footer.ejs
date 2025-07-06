@@ -3,6 +3,11 @@
 <hr>
 <% } %>
 
+<!-- Always load mobile menu for dashboard pages -->
+<% if (typeof pageCSS !== 'undefined' && pageCSS === 'dashboard') { %>
+<script src="/js/mobile-menu.js"></script>
+<% } %>
+
 <script src="/js/global.js"></script>
 
 <% if (typeof pageJS !== 'undefined') { %>

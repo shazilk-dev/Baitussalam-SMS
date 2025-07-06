@@ -1,7 +1,4 @@
-/* ===== BUTTON COMPONENTS ===== */
-/* Professional button system using the SMS color palette */
 
-/* Base Button Styles */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -19,6 +16,16 @@
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+/* Fix for button content alignment */
+.btn * {
+  vertical-align: middle;
+  line-height: 1;
 }
 
 .btn:focus {
@@ -32,6 +39,30 @@
   pointer-events: none;
 }
 
+/* Specific fix for button content centering */
+.btn svg.btn-icon {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.btn-sm svg.btn-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Ensure perfect centering for all content */
+.btn:not(.btn-icon) {
+  text-align: center;
+}
+
+.btn > * {
+  margin: 0;
+  padding: 0;
+}
+
 /* Primary Button */
 .btn-primary {
   background: var(--btn-primary-bg);
@@ -43,6 +74,7 @@
   background: var(--btn-primary-bg-hover);
   border-color: var(--btn-primary-bg-hover);
   transform: translateY(-1px);
+  color: white;
   box-shadow: var(--shadow-lg);
 }
 
@@ -144,16 +176,24 @@
 .btn-sm {
   padding: 0.5rem 1rem;
   font-size: 13px;
+  gap: 0.375rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-lg {
   padding: 1rem 2rem;
   font-size: 16px;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-xl {
   padding: 1.25rem 2.5rem;
   font-size: 18px;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Icon Buttons */
@@ -161,6 +201,8 @@
   padding: 0.75rem;
   width: auto;
   aspect-ratio: 1;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-icon-sm {
@@ -273,4 +315,18 @@
   font-size: 12px;
   padding: 0.25rem 0.75rem;
   border-radius: 1rem;
+}
+
+/* Button content alignment fix */
+.btn svg {
+  flex-shrink: 0;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.btn span,
+.btn text {
+  line-height: 1;
+  vertical-align: middle;
+  margin: 0;
 }

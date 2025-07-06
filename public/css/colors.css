@@ -3,6 +3,7 @@
 
 :root {
   /* ===== PRIMARY BRAND COLORS ===== */
+  --primary-700: #1A5A7B; /* Darker brand color */
   --primary-600: #206C96; /* Bice Blue - Main brand color */
   --primary-500: #177CB4; /* Honolulu Blue - Secondary brand */
   --primary-400: #2B8BC7; /* Lighter variation */
@@ -26,8 +27,10 @@
 
   /* ===== SEMANTIC COLORS ===== */
   /* Success Colors */
+  --success-700: #047857; /* Very dark green */
   --success-600: #059669; /* Dark green */
   --success-500: #10B981; /* Main green */
+  --success-200: #A7F3D0; /* Medium light green */
   --success-100: #D1FAE5; /* Light green background */
   --success-50: #ECFDF5;  /* Very light green */
 
@@ -46,8 +49,22 @@
   /* Info Colors */
   --info-600: var(--primary-600); /* Use primary blue */
   --info-500: var(--primary-500); /* Use secondary blue */
+  --info-700: var(--primary-600); /* Dark info color */
+  --info-200: var(--primary-200); /* Light info border */
   --info-100: var(--primary-100); /* Use primary light */
   --info-50: var(--primary-50);   /* Use primary very light */
+
+  /* Additional Success Colors */
+  --success-700: #047857;   /* Dark success color */
+  --success-200: #BBF7D0;   /* Light success border */
+
+  /* Additional Warning Colors */
+  --warning-700: #B45309;   /* Dark warning color */
+  --warning-200: #FDE68A;   /* Light warning border */
+
+  /* Additional Primary Colors */
+  --primary-700: #1E40AF;   /* Dark primary color */
+  --primary-200: #BFDBFE;   /* Light primary border */
 
   /* ===== SURFACE COLORS ===== */
   --surface-primary: var(--white);     /* Main content backgrounds */

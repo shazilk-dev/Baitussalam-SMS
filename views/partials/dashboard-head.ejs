@@ -6,32 +6,24 @@
     <title><%= title %></title>
     
     <!-- Google Fonts -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- CSS Files -->
+    <link rel="stylesheet" href="/css/colors.css">
     <link rel="stylesheet" href="/css/global.css">
-    <% if (typeof pageCSS !== 'undefined') { %>
-      <link rel="stylesheet" href="/css/<%= pageCSS %>.css">
+    <link rel="stylesheet" href="/css/buttons.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/students.css">
+    <% if (typeof pageCSS !== 'undefined' && pageCSS === 'student-profile') { %>
+    <link rel="stylesheet" href="/css/student-profile.css">
     <% } %>
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    
+    <!-- Mobile Menu Script (loaded early for better performance) -->
+    <script src="/js/mobile-menu.js" defer></script>
   </head>
   <body>
-    <!-- Header only shows for non-dashboard pages -->
-    <% if (typeof pageCSS === 'undefined' || pageCSS !== 'dashboard') { %>
-    <header>
-      <h1>Student Management System</h1>
-      <nav>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/students">Students</a>
-        <a href="/login">Login</a>
-      </nav>
-      <hr />
-    </header>
-    <main>
-    <% } %>
