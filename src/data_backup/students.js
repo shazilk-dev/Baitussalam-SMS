@@ -15,7 +15,7 @@ const students = [
   {
     id: 2,
     name: "Fatima Khan",
-    email: "fatima.khan@student.edu", 
+    email: "fatima.khan@student.edu",
     phone: "+92-301-2345678",
     course: "Data Science",
     courseId: 2,
@@ -29,7 +29,7 @@ const students = [
     id: 3,
     name: "Muhammad Ali",
     email: "muhammad.ali@student.edu",
-    phone: "+92-302-3456789", 
+    phone: "+92-302-3456789",
     course: "Mobile App Development",
     courseId: 3,
     status: "active",
@@ -43,7 +43,7 @@ const students = [
     name: "Aisha Ahmed",
     email: "aisha.ahmed@student.edu",
     phone: "+92-303-4567890",
-    course: "Web Development", 
+    course: "Web Development",
     courseId: 1,
     status: "active",
     enrollmentDate: "2024-02-10",
@@ -57,13 +57,13 @@ const students = [
     email: "hassan.malik@student.edu",
     phone: "+92-304-5678901",
     course: "Data Science",
-    courseId: 2, 
+    courseId: 2,
     status: "inactive",
     enrollmentDate: "2023-12-15",
     address: "Lahore, Pakistan",
     age: 24,
     gender: "Male",
-  }
+  },
 ];
 
-module.exports = students;
+export default students;
