@@ -9,8 +9,20 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
       req.cookies?.accessToken ||
       req.header("Authorization")?.replace("Bearer ", "");
 
+    console.log("JWT Verification Debug:", {
+      hasCookies: !!req.cookies,
+      hasAccessTokenCookie: !!req.cookies?.accessToken,
+      hasAuthHeader: !!req.header("Authorization"),
+      cookieKeys: req.cookies ? Object.keys(req.cookies) : [],
+      userAgent: req.get("User-Agent")
+        ? req.get("User-Agent").substring(0, 50)
+        : "unknown",
+      url: req.url,
+    });
+
     if (!token) {
-      return res.redirect("/login?error=login_required");
+      console.log("No token found, redirecting to login");
+      return res.redirect("/auth/login?error=login_required");
     }
 
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
@@ -20,12 +32,12 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
     );
 
     if (!user) {
-      return res.redirect("/login?error=invalid_token");
+      return res.redirect("/auth/login?error=invalid_token");
     }
 
     // Check if user is still active
     if (user.status !== "active") {
-      return res.redirect("/login?error=user_inactive");
+      return res.redirect("/auth/login?error=user_inactive");
     }
 
     req.user = user;
@@ -33,9 +45,9 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
   } catch (error) {
     console.error("JWT verification error:", error);
     if (error.name === "TokenExpiredError") {
-      return res.redirect("/login?error=token_expired");
+      return res.redirect("/auth/login?error=token_expired");
     }
-    return res.redirect("/login?error=invalid_token");
+    return res.redirect("/auth/login?error=invalid_token");
   }
 });
 
@@ -62,7 +74,7 @@ export const requireRole = (roles) => {
 export const requirePermission = (permission) => {
   return asyncHandler(async (req, res, next) => {
     if (!req.user) {
-      return res.redirect("/login?error=login_required");
+      return res.redirect("/auth/login?error=login_required");
     }
 
     if (req.user.permissions && req.user.permissions.includes(permission)) {

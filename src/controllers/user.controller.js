@@ -138,26 +138,53 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password, remember } = req.body;
 
+  // Debug logging for mobile issues
+  console.log("Login attempt:", {
+    email: email ? email.substring(0, 3) + "***" : "undefined",
+    password: password ? "***" : "undefined",
+    emailLength: email ? email.length : 0,
+    passwordLength: password ? password.length : 0,
+    userAgent: req.get("User-Agent")
+      ? req.get("User-Agent").substring(0, 50)
+      : "unknown",
+  });
+
   if (!email || !email.trim()) {
+    console.log("Missing email error");
     return res.redirect("/auth/login?error=missing_email");
   }
   if (!password || !password.trim()) {
+    console.log("Missing password error");
     return res.redirect("/auth/login?error=missing_password");
   }
 
-  const user = await User.findOne({ email: email.toLowerCase() });
+  // Normalize email and password for mobile compatibility
+  const normalizedEmail = email.toLowerCase().trim();
+  const normalizedPassword = password.trim();
+
+  console.log("Normalized data:", {
+    originalEmail: email,
+    normalizedEmail: normalizedEmail,
+    emailsMatch: email === normalizedEmail,
+  });
+
+  const user = await User.findOne({ email: normalizedEmail });
 
   if (!user) {
+    console.log("User not found with email:", normalizedEmail);
     return res.redirect("/auth/login?error=invalid_credentials");
   }
 
   if (user.status !== "active") {
+    console.log("User inactive:", normalizedEmail);
     return res.redirect("/auth/login?error=user_inactive");
   }
 
-  const isPasswordValid = await user.isPasswordCorrect(password);
+  const isPasswordValid = await user.isPasswordCorrect(normalizedPassword);
+  console.log("Password validation result:", isPasswordValid);
 
   if (!isPasswordValid) {
+    console.log("Invalid password for user:", normalizedEmail);
     return res.redirect("/auth/login?error=invalid_credentials");
   }
 
@@ -169,18 +196,57 @@ const loginUser = asyncHandler(async (req, res) => {
     "-password -refreshToken"
   );
 
+  // Mobile-friendly cookie options
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      req.get("User-Agent") || ""
+    );
+  const isHttps = req.secure || req.get("X-Forwarded-Proto") === "https";
+
   const options = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: isHttps, // Only secure if HTTPS
+    sameSite: isMobile && isHttps ? "none" : "lax", // Use "none" only for mobile HTTPS
     maxAge: remember ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000,
+    path: "/", // Ensure cookie is available site-wide
+    domain: undefined, // Let browser set domain automatically
   };
 
-  return res
-    .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
-    .redirect("/dashboard");
+  console.log("Token generation successful, setting cookies:", {
+    hasAccessToken: !!accessToken,
+    hasRefreshToken: !!refreshToken,
+    cookieOptions: options,
+    isMobile: isMobile,
+    isHttps: isHttps,
+    protocol: req.protocol,
+    userAgent: req.get("User-Agent")
+      ? req.get("User-Agent").substring(0, 50)
+      : "unknown",
+  });
+
+  console.log("About to redirect to dashboard...");
+
+  // Set cookies
+  res.cookie("accessToken", accessToken, options);
+  res.cookie("refreshToken", refreshToken, options);
+
+  // Mobile-friendly redirect approach
+  if (isMobile) {
+    console.log("Mobile user - using JavaScript redirect");
+    // For mobile, use a more reliable redirect method
+    return res.send(`
+      <script>
+        console.log('Mobile redirect triggered');
+        window.location.replace('/dashboard');
+      </script>
+      <noscript>
+        <meta http-equiv="refresh" content="0;url=/dashboard">
+      </noscript>
+    `);
+  } else {
+    console.log("Desktop user - using server redirect");
+    return res.redirect("/dashboard");
+  }
 });
 
 const logoutUser = asyncHandler(async (req, res) => {

@@ -14,10 +14,10 @@
 <script src="/js/<%= pageJS %>.js"></script>
 <% } %>
 
-<% if (typeof pageCSS === 'undefined' || pageCSS !== 'dashboard') { %>
-<footer>
-  <p>&copy; <%= new Date().getFullYear() %> Student Management System | Built by Team SK</p>
-</footer>
-<% } %>
+<%# 
+  Footer removed for cleaner admin interface design.
+  Admin systems typically don't need footers as they clutter the interface.
+  The sidebar already provides navigation and branding.
+%>
 </body>
 </html>

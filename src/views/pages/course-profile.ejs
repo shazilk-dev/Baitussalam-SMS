@@ -1,0 +1,587 @@
+<%- include('../partials/dashboard-head') %>
+
+<div class="dashboard-layout">
+  <!-- Mobile Menu -------------------------------------------- -->
+  <button
+    class="mobile-menu-toggle"
+    id="mobileMenuToggle"
+    aria-label="Toggle mobile menu"
+  >
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+  </button>
+
+  <!-- Sidebar -------------------------------------------- -->
+  <%- include('../partials/sidebar', { currentPage: currentPage, user: user })
+  %>
+
+  <!-- Main Content -------------------------------------------- -->
+  <main class="main-content">
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumb-nav">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/courses" class="breadcrumb-link">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"
+              />
+            </svg>
+            Courses
+          </a>
+        </li>
+        <li class="breadcrumb-separator">
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="m9 18 6-6-6-6" />
+          </svg>
+        </li>
+        <li class="breadcrumb-item active"><%= course.title %></li>
+      </ol>
+    </nav>
+
+    <!-- Course Profile Header -->
+    <div class="profile-header">
+      <div class="profile-banner">
+        <div class="profile-info">
+          <div class="course-avatar">
+            <span class="course-icon"
+              ><%= course.code.substring(0, 2).toUpperCase() %></span
+            >
+          </div>
+
+          <div class="course-details">
+            <h1 class="course-name"><%= course.title %></h1>
+
+            <div class="course-meta-row">
+              <div class="instructor-info">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                <%= course.instructor %>
+              </div>
+
+              <div class="course-id">
+                <span class="course-code"><%= course.code %></span>
+              </div>
+            </div>
+
+            <div class="course-badges">
+              <span class="status-badge <%= course.status.toLowerCase() %>">
+                <%= course.status %>
+              </span>
+            </div>
+          </div>
+
+          <div class="header-actions">
+            <a href="/courses" class="btn btn-secondary">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M19 12H5m7-7-7 7 7 7" />
+              </svg>
+              Back to Courses
+            </a>
+
+            <% if (user.role === 'admin' || user.role === 'staff') { %>
+            <a href="/courses/<%= course.id %>/edit" class="btn btn-primary">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                />
+                <path d="m18.5 2.5 3 3L16 11l-4 1 1-4 5.5-5.5z" />
+              </svg>
+              Edit Course
+            </a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <% if (success) { %>
+    <div class="alert alert-success">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="m9 12 2 2 4-4" />
+        <circle cx="12" cy="12" r="10" />
+      </svg>
+      <%= success %>
+    </div>
+    <% } %> <% if (error) { %>
+    <div class="alert alert-error">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="m15 9-6 6m0-6 6 6" />
+      </svg>
+      <%= error %>
+    </div>
+    <% } %>
+
+    <!-- Course Overview Cards -->
+    <div class="course-overview">
+      <div class="overview-card status-card">
+        <div class="card-header">
+          <div class="card-icon status">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+          </div>
+          <div class="card-content">
+            <h3>Course Status</h3>
+            <span class="status-badge status-<%= course.status %>">
+              <%= course.status.charAt(0).toUpperCase() + course.status.slice(1)
+              %>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="overview-card enrollment-card">
+        <div class="card-header">
+          <div class="card-icon enrollment">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </div>
+          <div class="card-content">
+            <h3>Enrolled Students</h3>
+            <span class="stat-number"><%= course.enrollmentCount %></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="overview-card attendance-card">
+        <div class="card-header">
+          <div class="card-icon attendance">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-4"
+              />
+              <path d="M9 7V3a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4" />
+              <path d="M9 11l2 2 4-4" />
+            </svg>
+          </div>
+          <div class="card-content">
+            <h3>Average Attendance</h3>
+            <span
+              class="stat-number <%= course.averageAttendance >= 80 ? 'good' : course.averageAttendance >= 60 ? 'medium' : 'low' %>"
+            >
+              <%= course.averageAttendance %>%
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="overview-card progress-card">
+        <div class="card-header">
+          <div class="card-icon progress">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
+          </div>
+          <div class="card-content">
+            <h3>Course Progress</h3>
+            <div class="progress-info">
+              <span class="progress-percentage"
+                ><%= course.progressPercentage %>%</span
+              >
+              <div class="progress-bar">
+                <div
+                  class="progress-fill"
+                  data-progress="<%= course.progressPercentage %>"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-details-grid">
+      <!-- Course Information -->
+      <div class="details-section course-info-section">
+        <div class="section-header">
+          <h2>Course Information</h2>
+          <% if (user.role === 'admin') { %>
+          <div class="section-actions">
+            <button
+              class="btn-icon btn-danger delete-course"
+              data-course-id="<%= course.id %>"
+              data-course-title="<%= course.title %>"
+              title="Delete Course"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                />
+              </svg>
+            </button>
+          </div>
+          <% } %>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <label class="info-label">Course Title</label>
+            <span class="info-value"><%= course.title %></span>
+          </div>
+
+          <div class="info-item">
+            <label class="info-label">Course Code</label>
+            <span class="info-value course-code-display"
+              ><%= course.code %></span
+            >
+          </div>
+
+          <div class="info-item">
+            <label class="info-label">Instructor</label>
+            <span class="info-value"><%= course.instructor %></span>
+          </div>
+
+          <div class="info-item">
+            <label class="info-label">Start Date</label>
+            <span class="info-value"><%= course.formattedStartDate %></span>
+          </div>
+
+          <div class="info-item">
+            <label class="info-label">End Date</label>
+            <span class="info-value"><%= course.formattedEndDate %></span>
+          </div>
+
+          <div class="info-item">
+            <label class="info-label">Status</label>
+            <span class="info-value">
+              <span class="status-badge status-<%= course.status %>">
+                <%= course.status.charAt(0).toUpperCase() +
+                course.status.slice(1) %>
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <% if (course.description) { %>
+        <div class="course-description">
+          <label class="info-label">Description</label>
+          <p class="description-text"><%= course.description %></p>
+        </div>
+        <% } %>
+      </div>
+
+      <!-- Enrolled Students -->
+      <div class="details-section students-section">
+        <div class="section-header">
+          <h2>Enrolled Students (<%= course.enrollmentCount %>)</h2>
+          <div class="section-actions">
+            <% if (user.role === 'admin' || user.role === 'staff') { %>
+            <button class="btn btn-secondary btn-sm" id="manageEnrollments">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="8.5" cy="7" r="4" />
+                <path d="M20 8v6M23 11h-6" />
+              </svg>
+              Manage Enrollments
+            </button>
+            <% } %>
+          </div>
+        </div>
+
+        <% if (course.enrolledStudents && course.enrolledStudents.length > 0) {
+        %>
+        <div class="students-grid">
+          <% course.enrolledStudents.forEach(student => { %>
+          <div class="student-card">
+            <div class="student-avatar">
+              <img src="/images/default-avatar.svg" alt="<%= student.name %>" />
+            </div>
+            <div class="student-info">
+              <h4 class="student-name">
+                <a href="/students/<%= student.id %>"><%= student.name %></a>
+              </h4>
+              <p class="student-email"><%= student.email %></p>
+              <div class="enrollment-date">
+                <span class="date-label">Enrolled:</span>
+                <span class="date-value"
+                  ><%= new Date(student.enrollmentDate).toLocaleDateString()
+                  %></span
+                >
+              </div>
+            </div>
+            <div class="student-actions">
+              <a
+                href="/students/<%= student.id %>"
+                class="btn-icon btn-primary"
+                title="View Student"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+        <% } else { %>
+        <div class="empty-students">
+          <svg
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="8.5" cy="7" r="4" />
+            <path d="M20 8v6M23 11h-6" />
+          </svg>
+          <h3>No Students Enrolled</h3>
+          <p>This course doesn't have any enrolled students yet.</p>
+          <% if (user.role === 'admin' || user.role === 'staff') { %>
+          <button class="btn btn-primary btn-sm" id="addStudentsBtn">
+            Add Students
+          </button>
+          <% } %>
+        </div>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Quick Actions Panel -->
+    <% if (user.role === 'admin' || user.role === 'staff') { %>
+    <div class="quick-actions-panel">
+      <h3>Quick Actions</h3>
+      <div class="actions-grid">
+        <button class="action-btn attendance-action">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-4"
+            />
+            <path d="M9 7V3a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4" />
+          </svg>
+          <span>Take Attendance</span>
+        </button>
+
+        <button class="action-btn reports-action">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+            />
+            <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+          </svg>
+          <span>Generate Report</span>
+        </button>
+
+        <button class="action-btn schedule-action">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+          <span>View Schedule</span>
+        </button>
+
+        <button class="action-btn communication-action">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+            />
+            <polyline points="22,6 12,13 2,6" />
+          </svg>
+          <span>Send Notification</span>
+        </button>
+      </div>
+    </div>
+    <% } %>
+  </main>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Delete Course</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this course?</p>
+        <div class="deletion-warning">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+            />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+          <div>
+            <strong>Warning:</strong> This action cannot be undone. All related
+            enrollment and attendance data will be permanently deleted. <% if
+            (course.enrollmentCount > 0) { %> <br /><br />
+            <strong>Note:</strong> This course has <%= course.enrollmentCount %>
+            enrolled student<%= course.enrollmentCount !== 1 ? 's' : '' %>.
+            Please unenroll or transfer students before deleting. <% } %>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="cancelDelete">
+          Cancel
+        </button>
+        <% if (course.enrollmentCount === 0) { %>
+        <button type="button" class="btn btn-danger" id="confirmDelete">
+          Delete Course
+        </button>
+        <% } else { %>
+        <button
+          type="button"
+          class="btn btn-danger"
+          disabled
+          title="Cannot delete course with enrolled students"
+        >
+          Cannot Delete
+        </button>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

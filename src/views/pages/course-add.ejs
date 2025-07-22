@@ -1,0 +1,269 @@
+<%- include('../partials/dashboard-head') %>
+
+<div class="dashboard-layout">
+  <!-- Mobile Menu -------------------------------------------- -->
+  <button
+    class="mobile-menu-toggle"
+    id="mobileMenuToggle"
+    aria-label="Toggle mobile menu"
+  >
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+  </button>
+
+  <!-- Sidebar -------------------------------------------- -->
+  <%- include('../partials/sidebar', { currentPage: currentPage, user: user })
+  %>
+
+  <!-- Main Content -------------------------------------------- -->
+  <main class="main-content">
+    <div class="content-header">
+      <div class="header-title">
+        <h1>Add New Course</h1>
+        <p class="header-subtitle">
+          Create a new course for the academic program
+        </p>
+      </div>
+
+      <div class="header-actions">
+        <a href="/courses" class="btn btn-secondary">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M19 12H5m7-7-7 7 7 7" />
+          </svg>
+          Back to Courses
+        </a>
+      </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <% if (success) { %>
+    <div class="alert alert-success">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="m9 12 2 2 4-4" />
+        <circle cx="12" cy="12" r="10" />
+      </svg>
+      <%= success %>
+    </div>
+    <% } %> <% if (error) { %>
+    <div class="alert alert-error">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="m15 9-6 6m0-6 6 6" />
+      </svg>
+      <%= error %>
+    </div>
+    <% } %>
+
+    <div class="form-container">
+      <form
+        id="courseForm"
+        action="/courses/add"
+        method="POST"
+        class="course-form"
+      >
+        <div class="form-section">
+          <h3 class="section-title">Course Information</h3>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="title" class="form-label required"
+                >Course Title</label
+              >
+              <input
+                type="text"
+                id="title"
+                name="title"
+                class="form-input"
+                placeholder="e.g., Web Development Fundamentals"
+                required
+              />
+              <span class="form-error" id="title-error"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="code" class="form-label required">Course Code</label>
+              <input
+                type="text"
+                id="code"
+                name="code"
+                class="form-input"
+                placeholder="e.g., WEB-2024"
+                required
+              />
+              <span class="form-error" id="code-error"></span>
+              <small class="form-help"
+                >Course code should be unique (letters, numbers, and hyphens
+                only)</small
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description" class="form-label"
+              >Course Description</label
+            >
+            <textarea
+              id="description"
+              name="description"
+              class="form-textarea"
+              rows="4"
+              placeholder="Brief description of the course content and objectives..."
+            ></textarea>
+            <span class="form-error" id="description-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="instructor" class="form-label required"
+              >Instructor</label
+            >
+            <input
+              type="text"
+              id="instructor"
+              name="instructor"
+              class="form-input"
+              placeholder="e.g., Mr. John Smith"
+              required
+            />
+            <span class="form-error" id="instructor-error"></span>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3 class="section-title">Schedule & Status</h3>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="startDate" class="form-label required"
+                >Start Date</label
+              >
+              <input
+                type="date"
+                id="startDate"
+                name="startDate"
+                class="form-input"
+                required
+              />
+              <span class="form-error" id="startDate-error"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="endDate" class="form-label required">End Date</label>
+              <input
+                type="date"
+                id="endDate"
+                name="endDate"
+                class="form-input"
+                required
+              />
+              <span class="form-error" id="endDate-error"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="status" class="form-label">Initial Status</label>
+            <select id="status" name="status" class="form-select">
+              <option value="upcoming" selected>Upcoming</option>
+              <option value="active">Active</option>
+              <option value="completed">Completed</option>
+            </select>
+            <span class="form-error" id="status-error"></span>
+            <small class="form-help"
+              >You can change the status later from the course management
+              page</small
+            >
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="cancelBtn" class="btn btn-secondary">
+            Cancel
+          </button>
+          <button type="submit" id="submitBtn" class="btn btn-primary">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 5v14m7-7H5" />
+            </svg>
+            Create Course
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Course Preview Card -->
+    <div class="course-preview-card">
+      <h3 class="preview-title">Course Preview</h3>
+      <div class="preview-content">
+        <div class="preview-item">
+          <span class="preview-label">Title:</span>
+          <span class="preview-value" id="preview-title"
+            >Course title will appear here</span
+          >
+        </div>
+        <div class="preview-item">
+          <span class="preview-label">Code:</span>
+          <span class="preview-value" id="preview-code">COURSE-CODE</span>
+        </div>
+        <div class="preview-item">
+          <span class="preview-label">Instructor:</span>
+          <span class="preview-value" id="preview-instructor"
+            >Instructor name</span
+          >
+        </div>
+        <div class="preview-item">
+          <span class="preview-label">Duration:</span>
+          <span class="preview-value" id="preview-duration"
+            >Duration will be calculated</span
+          >
+        </div>
+        <div class="preview-item">
+          <span class="preview-label">Status:</span>
+          <span class="preview-value" id="preview-status">
+            <span class="status-badge status-upcoming">Upcoming</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="preview-tips">
+        <h4>Quick Tips:</h4>
+        <ul>
+          <li>Course codes should be unique and descriptive</li>
+          <li>Use clear, concise titles that students can easily identify</li>
+          <li>Set realistic start and end dates</li>
+          <li>
+            Add a brief description to help students understand the course
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>
+
+<%- include('../partials/footer') %>
